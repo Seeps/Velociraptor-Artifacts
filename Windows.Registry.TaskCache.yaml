@@ -1,0 +1,42 @@
+name: Windows.Registry.TaskCache
+description: |
+    This artifact enumerates cached scheduled tasks and helps identify malicious persistence
+    within the 'TaskCache' key - namely the 'Tasks' and 'Tree' subkeys:
+
+     - HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks
+     - HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree
+
+    The 'Actions' value will list the file or embedded command of interest. For example, crypto malware such as
+    LemonDuck utilizes Base64 encoded PowerShell commands. 
+    
+    The 'Path' value helps identify the name of the scheduled task and its location within the Tasks folder on the filesystem.
+    
+    The 'Id' value is a GUID that is used to tie the 'Tasks' and 'Tree' entries for a specific task.
+
+    * ATT&CK tactics: Execution, Persistence, Privilege Escalation 
+    * ATT&CK technique: T1053.005
+
+author: Deepak Sharma - @rxurien
+
+type: CLIENT
+
+parameters:
+ - name: TaskCache
+   default: 
+    HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\**
+   
+sources:
+  - precondition:
+      SELECT OS From info() where OS = 'windows'
+
+    query:
+        SELECT  Mtime,
+                Atime,
+                Ctime,
+                Btime,
+                FullPath,
+                Name as ValueName,
+                Data.value as ValueData,
+                Fqdn
+        FROM glob(globs=TaskCache, accessor='registry') 
+        WHERE NOT IsDir and (FullPath =~ "Tasks" OR FullPath =~ "Tree") and (Name = "Id" or Name = "Path" or Name = "Actions")
