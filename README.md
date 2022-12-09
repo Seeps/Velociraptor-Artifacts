@@ -9,3 +9,6 @@ https://docs.velociraptor.app/exchange/artifacts/pages/macos.applications.safari
 
 MacOS.Applications.Safari.Downloads.yaml - Submitted to and accepted by the Velociraptor Artifact Exchange
 https://docs.velociraptor.app/exchange/artifacts/pages/macos.applications.safari.downloads/
+
+Linux.Forensics.RecentlyUsed.yaml - Submitted to and accepted by the Velociraptor Artifact Exchange
+https://docs.velociraptor.app/exchange/artifacts/pages/linux.forensics.recentlyused/
