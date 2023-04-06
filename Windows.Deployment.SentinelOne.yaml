@@ -1,0 +1,45 @@
+name: Windows.Deployment.SentinelOne
+description: |
+  Remotely push and install a SentinelOne package.
+
+  NOTE: This artifact requires that you supply an EXE/MSI file using the tools interface. 
+  Simply click on the Tools -- [Package] button in the GUI and upload a pre-packaged installer.
+  The file can be served via direct upload or a hosted URL resource path.
+
+author: Deepak Sharma - @rxurien | deepak@coalitioninc.com
+
+tools:
+  - name: Package
+
+parameters:
+  - name: SiteToken
+    default: ''
+    description: |
+      SentinelOne Site Token
+  - name: SleepDuration
+    default: "600"
+    type: int
+    description: |
+      The installer package download staggered over number of seconds
+
+sources:
+  - precondition:
+      SELECT OS From info() where OS = 'windows'
+
+    query:  |
+      // Force the file to be copied to the real temp directory since
+      // we are just about to remove the Tools directory.
+      LET bin <= SELECT copy(filename=FullPath,
+          dest=expand(path="%SYSTEMROOT%\\Temp\\") + basename(path=FullPath)) AS Dest
+      FROM Artifact.Generic.Utils.FetchBinary(
+         ToolName="Package", IsExecutable=FALSE,
+         SleepDuration=SleepDuration)
+
+      // Call the binary and return all its output in a single row.
+      // If we fail to download the binary we do not run the command.
+      SELECT * FROM foreach(row=bin,
+      query={
+         SELECT * FROM execve(
+              argv=[Dest, "SITE_TOKEN="+SiteToken, "/quiet", "/norestart"],
+              length=10000000)
+      })
