@@ -5,6 +5,9 @@ description: |
   NOTE: This artifact requires that you supply an EXE/MSI file using the tools interface. 
   Simply click on the Tools -- [Package] button in the GUI and upload a pre-packaged installer.
   The file can be served via direct upload or a hosted URL resource path.
+  
+  Stairwell packages can be obtained from the Download Center:
+  https://help.stairwell.com/en/knowledge/download-center
 
 author: Deepak Sharma - @rxurien | deepak@coalitioninc.com
 
