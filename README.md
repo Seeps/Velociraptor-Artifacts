@@ -12,3 +12,7 @@ https://docs.velociraptor.app/exchange/artifacts/pages/macos.applications.safari
 
 Linux.Forensics.RecentlyUsed.yaml - Submitted to and accepted by the Velociraptor Artifact Exchange
 https://docs.velociraptor.app/exchange/artifacts/pages/linux.forensics.recentlyused/
+
+Windows.Deployment.Stairwell.yaml - Easy deployment of Stairwell on Windows hosts 
+
+Windows.Deployment.SentinelOne.yaml - Easy deployment of SentinelOne on Windows hosts
