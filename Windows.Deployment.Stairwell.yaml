@@ -47,6 +47,6 @@ sources:
       SELECT * FROM foreach(row=bin,
       query={
          SELECT * FROM execve(
-              argv=[Dest, "TOKEN="+AuthToken, "ENVIRONMENT_ID="+EnvID, "/quiet", "/norestart"],
+              argv=[Dest, "TOKEN="+'"'+AuthToken+'"', "ENVIRONMENT_ID="+'"'+EnvID+'"', "/quiet", "/norestart"],
               length=10000000)
       })
