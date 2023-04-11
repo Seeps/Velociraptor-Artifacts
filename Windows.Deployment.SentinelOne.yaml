@@ -40,6 +40,6 @@ sources:
       SELECT * FROM foreach(row=bin,
       query={
          SELECT * FROM execve(
-              argv=[Dest, "SITE_TOKEN="+SiteToken, "/quiet", "/norestart"],
+              argv=[Dest, "SITE_TOKEN="+'"'+SiteToken+'"', "/quiet", "/norestart"],
               length=10000000)
       })
